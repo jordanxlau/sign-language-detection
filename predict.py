@@ -7,9 +7,9 @@ from mediapipe import solutions
 # List of labels (different from preprocessing.py)
 labels = {
     -1: 'no hand',
-    0: 'call', 1: 'thumbs down', 2: 'reset', 3: 'four', 4: 'thumbs up', 5: 'mute',
-    6: 'ok', 7: 'one', 8: 'palm', 9: 'peace', 10: 'peace', 11: 'rock',
-    12: 'stop', 13: 'stop', 14: 'three', 15: 'three', 16: 'two up', 17: 'two up'
+    0: 'call', 1: 'thumbs down', 2: 'reset', 3: 'four', 4: 'thumbs up', 5: 'quiet',
+    6: 'ok', 7: 'one', 8: 'palm', 9: 'two', 10: 'two', 11: 'rock',
+    12: 'Bb', 13: 'backhand', 14: 'three', 15: 'three', 16: 'Uu', 17: 'two'
 }
 
 # Find the best prediction
@@ -96,8 +96,8 @@ try:
                 # Correct for the coordinate normalization done by mediapipe
                 top_left = (int(max_x*width), int(max_y*height))
                 bottom_right = (int(min_x*width),int(min_y*height))
-                # Draw a green rectangle around the hands
-                cv2.rectangle(image, top_left, bottom_right, (0, 0, 255), 2)
+                # Draw a rectangle around the hands
+                cv2.rectangle(image, top_left, bottom_right, (0,0,255), 2)
 
                 # Isolate all landmarks on the hand
                 hand = []
@@ -110,14 +110,15 @@ try:
                 hand = tf.constant([hand])
                 predictions = model.predict(hand)
                 prediction = best_prediction(predictions)
-                # Print predictions when the gesture changes
+
+                # Add to the message when the gesture changes
                 if previous_prediction != prediction:
                     message = message + labels[prediction] + ", " 
                 if prediction == 2:
                     message = ""
 
-        # Draw a green text prediction
-        cv2.putText(image, message, (10, 70), cv2.FONT_HERSHEY_TRIPLEX, 0.7, (0, 0, 255), 2, cv2.LINE_AA)
+                # Draw the string of gestures
+                cv2.putText(image, message, top_left, cv2.FONT_HERSHEY_TRIPLEX, 0.7, (0, 0, 255), 2, cv2.LINE_AA)
         
         previous_prediction = prediction
 
