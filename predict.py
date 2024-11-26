@@ -4,12 +4,12 @@ import tensorflow as tf
 import numpy as np
 from mediapipe import solutions
 
-# List of labels
+# List of labels (different from preprocessing.py)
 labels = {
     -1: 'no hand',
-    0: 'call', 1: 'dislike', 2: 'fist', 3: 'four', 4: 'like', 5: 'mute',
-    6: 'ok', 7: 'one', 8: 'palm', 9: 'peace', 10: 'peace_inverted', 11: 'rock',
-    12: 'stop', 13: 'stop_inverted', 14: 'three', 15: 'three2', 16: 'two_up', 17: 'two_up_inverted'
+    0: 'call', 1: 'thumbs down', 2: 'reset', 3: 'four', 4: 'thumbs up', 5: 'mute',
+    6: 'ok', 7: 'one', 8: 'palm', 9: 'peace', 10: 'peace', 11: 'rock',
+    12: 'stop', 13: 'stop', 14: 'three', 15: 'three', 16: 'two up', 17: 'two up'
 }
 
 # Find the best prediction
@@ -41,13 +41,17 @@ try:
     fps = cap.get(cv2.CAP_PROP_FPS)
 
     # Define an output
-    # result = cv2.VideoWriter("videos_partA_detection.mp4", cv2.VideoWriter_fourcc(*'X264'), fps, (int(width), int(height)) , 0) # codec = method of compression
+    result = cv2.VideoWriter("output.mp4", cv2.VideoWriter_fourcc(*'X264'), fps, (int(width), int(height)) , 0) # codec = method of compression
 
     # Define a mediapipe hand object
     hands = mp_hands.Hands(
         static_image_mode=True,
         max_num_hands=1,
         min_detection_confidence=0.25)
+    
+    # Initialize a previous prediction
+    previous_prediction = -1
+    message = " "
 
     # Read from the video
     while cap.isOpened():
@@ -84,12 +88,19 @@ try:
                 hand = tf.constant([hand])
                 predictions = model.predict(hand)
                 prediction = best_prediction(predictions)
+                # Print predictions when the gesture changes
+                if previous_prediction != prediction:
+                    message = message + labels[prediction] + ", " 
+                if prediction == 2:
+                    message = ""
 
         # Draw a green text prediction
-        cv2.putText(image, labels[prediction], (10, 100), cv2.FONT_HERSHEY_DUPLEX, 4, (255, 200, 50), 2, cv2.LINE_AA)
+        cv2.putText(image, message, (10, 70), cv2.FONT_HERSHEY_TRIPLEX, 0.7, (255, 200, 50), 2, cv2.LINE_AA)
+        
+        previous_prediction = prediction
 
         # Write to output video
-        # result.write(image)
+        result.write(image)
 
         # Re-image the image
         cv2.imshow('Sign Language Alphabet Detection', image)
@@ -97,7 +108,8 @@ try:
         # Read next frame
         success, image = cap.read()
 
-    # result.release()
+    result.release()
     cap.release()
+    cv2.destroyAllWindows()
 except Exception as e:
     print(e)
