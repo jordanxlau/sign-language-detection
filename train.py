@@ -18,9 +18,11 @@ model = keras.Sequential([
   keras.layers.Flatten(),
   keras.layers.Dense(units=128, activation="relu", kernel_initializer="he_normal"),
   keras.layers.Dropout(0.10),
-  keras.layers.Dense(units=64, activation="relu", kernel_initializer="he_normal"),
+  keras.layers.Dense(units=128, activation="relu", kernel_initializer="he_normal"),
   keras.layers.Dropout(0.10),
-  keras.layers.Dense(units=5, activation="softmax")
+  keras.layers.Dense(units=128, activation="relu", kernel_initializer="he_normal"),
+  keras.layers.Dropout(0.10),
+  keras.layers.Dense(units=18, activation="softmax")
 ])
 
 # Compile the model
@@ -30,9 +32,9 @@ model.compile(
 )
 
 # Train the model
-history = model.fit(X_train, y_train, epochs=20, validation_data=(X_test, y_test))
+history = model.fit(X_train, y_train, epochs=25, validation_data=(X_test, y_test))
 
 model.summary()
 
 # Save
-model.save("model-fivesymbols.keras", overwrite=True)
+model.save("hand-gestures.keras", overwrite=True)

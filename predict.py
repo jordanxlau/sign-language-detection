@@ -6,7 +6,10 @@ from mediapipe import solutions
 
 # List of labels
 labels = {
-    -1:'No Hand Detected', 0: 'call', 1: 'dislike', 2: 'fist', 3: 'four', 4: 'like'
+    -1: 'no hand',
+    0: 'call', 1: 'dislike', 2: 'fist', 3: 'four', 4: 'like', 5: 'mute',
+    6: 'ok', 7: 'one', 8: 'palm', 9: 'peace', 10: 'peace_inverted', 11: 'rock',
+    12: 'stop', 13: 'stop_inverted', 14: 'three', 15: 'three2', 16: 'two_up', 17: 'two_up_inverted'
 }
 
 # Find the best prediction
@@ -14,7 +17,7 @@ def best_prediction(predictions:np.array):
     # Search an np array of normalized predictions for the max value (most likely prediction)
     for j in range( len(predictions) ):
         max = 0
-        for i in range( 5 ):
+        for i in range( 18 ):
             max = i if predictions[j,max] < predictions[j,i] else max
     
     return max
@@ -26,7 +29,7 @@ try:
     mp_hands = solutions.hands
 
     # Load the hand classification model
-    model = keras.models.load_model("model-fivesymbols.keras")
+    model = keras.models.load_model("hand-gestures.keras")
 
     # Initialize video capture from webcam
     cap = cv2.VideoCapture(0)
