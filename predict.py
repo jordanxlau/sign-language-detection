@@ -23,10 +23,22 @@ def best_prediction(predictions:np.array):
     return max
 
 try:
-    # Rename mediapipe utilities
-    mp_drawing = solutions.drawing_utils
-    mp_drawing_styles = solutions.drawing_styles
+    # Rename mediapipe
     mp_hands = solutions.hands
+
+    # Define a mediapipe hand object
+    hands = mp_hands.Hands(
+        static_image_mode=True,
+        max_num_hands=1,
+        min_detection_confidence=0.25)
+
+    # List of key landmarks used to draw the boxes
+    KEY_LANDMARKS = [mp_hands.HandLandmark.WRIST,
+                     mp_hands.HandLandmark.THUMB_TIP,
+                     mp_hands.HandLandmark.INDEX_FINGER_TIP,
+                     mp_hands.HandLandmark.MIDDLE_FINGER_TIP,
+                     mp_hands.HandLandmark.RING_FINGER_TIP,
+                     mp_hands.HandLandmark.PINKY_TIP]
 
     # Load the hand classification model
     model = keras.models.load_model("hand-gestures.keras")
@@ -42,12 +54,6 @@ try:
 
     # Define an output
     result = cv2.VideoWriter("output.mp4", cv2.VideoWriter_fourcc(*'X264'), fps, (int(width), int(height)) , 0) # codec = method of compression
-
-    # Define a mediapipe hand object
-    hands = mp_hands.Hands(
-        static_image_mode=True,
-        max_num_hands=1,
-        min_detection_confidence=0.25)
     
     # Initialize a previous prediction
     previous_prediction = -1
@@ -78,12 +84,28 @@ try:
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
         if results.multi_hand_landmarks:
             for hand_landmarks in results.multi_hand_landmarks:
+                # Find the top left and bottom right corner of the hand
+                max_x, max_y, min_x, min_y = 0, 0, 1, 1
+                for p in KEY_LANDMARKS:
+                    x = hand_landmarks.landmark[p].x
+                    y = hand_landmarks.landmark[p].y
+                    max_x = x if x > max_x else max_x
+                    max_y = y if y > max_y else max_y
+                    min_x = x if x < min_x else min_x
+                    min_y = y if y < min_y else min_y
+                # Correct for the coordinate normalization done by mediapipe
+                top_left = (int(max_x*width), int(max_y*height))
+                bottom_right = (int(min_x*width),int(min_y*height))
+                # Draw a green rectangle around the hands
+                cv2.rectangle(image, top_left, bottom_right, (0, 0, 255), 2)
+
+                # Isolate all landmarks on the hand
                 hand = []
                 for landmark in hand_landmarks.landmark:
-                    # print([landmark.x, landmark.y, landmark.z])
                     hand.append(landmark.x)
                     hand.append(landmark.y)
                     hand.append(landmark.z)
+
                 # Make a prediction
                 hand = tf.constant([hand])
                 predictions = model.predict(hand)
@@ -95,7 +117,7 @@ try:
                     message = ""
 
         # Draw a green text prediction
-        cv2.putText(image, message, (10, 70), cv2.FONT_HERSHEY_TRIPLEX, 0.7, (255, 200, 50), 2, cv2.LINE_AA)
+        cv2.putText(image, message, (10, 70), cv2.FONT_HERSHEY_TRIPLEX, 0.7, (0, 0, 255), 2, cv2.LINE_AA)
         
         previous_prediction = prediction
 
