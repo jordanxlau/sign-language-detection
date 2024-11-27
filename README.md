@@ -1,6 +1,8 @@
 # Sign Language Gesture Detection
 This project was made for CSI 4133 to detect live sign language gestures such as fingerspelled letters. While the original assignment did not require it, I decided to extend the project by training my own neural network.
 
+![](model_training.png)
+
 Due to lack of high-quality datasets, I opted instead to detect various universal hand gestures. However, the success of this project is promising for the future detection of sign language fingerspelling (which, unlike most signs, are often static gestures), given a sufficently large dataset.
 
 ## Architecture
@@ -9,6 +11,8 @@ Essentially: raw hand data -> mediapipe -> my model -> live gesture prediction
 ## Running the Code
 You can the pre-trained model out on your own webcam by executing:
 `python predict.py`
+
+![](example.png)
 
 ## Explanation
 File `preprocessing.py` opens the HaGRID dataset (which I have downloaded locally but not upload to this repo) and processes the data with Google MediaPipe Hand Landmark detection. MediaPipe's hand landmark detection can detect 3D points of 21 key landmarks on a hand (eg. Wrist, Index Finger Metacarpals, etc.). So, each hand in each image in HaGRID is stored as sets of points for a total `21*3 = 63` features in X.csv and y.csv. This can easily take over 2 hours for the full dataset.
