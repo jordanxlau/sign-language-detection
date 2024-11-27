@@ -7,10 +7,13 @@ import sys
 
 # List of labels (different from predict.py)
 labels = {
-    0: 'call', 1: 'dislike', 2: 'fist', 3: 'four', 4: 'like',
-    5: 'mute', 6: 'ok', 7: 'one', 8: 'palm', 9: 'peace',
-    10: 'peace_inverted', 11: 'rock', 12: 'stop', 13: 'stop_inverted', 14: 'three',
-    15: 'three2', 16: 'two_up', 17: 'two_up_inverted',
+    0: 'call', 1: 'dislike', 2: 'fist', 3: 'four', 4: 'grabbing',
+    5: 'grip', 6: 'hand_heart', 7: 'hand_heart2', 8: 'holy', 9: 'like',
+    10: 'little_finger', 11: 'middle_finger', 12: 'mute', 13: 'ok', 14: 'one',
+    15: 'palm', 16: 'peace', 17: 'peace_inverted', 18: 'point', 19: 'rock',
+    20: 'stop', 21: 'stop_inverted', 22: 'take_picture', 23: 'three', 24: 'three_gun',
+    25: 'three2', 26: 'three3', 27: 'thumb_index', 28: 'thumb_index2', 29: 'timeout',
+    30: 'two_up', 31: 'two_up_inverted', 32: 'xsign'
 }
 
 try:
@@ -28,15 +31,15 @@ try:
         min_detection_confidence=0.4)
 
     # Read data for each class
-    for i in range(18):
+    for i in range(33):
         label = labels[i]
-        folder = os.listdir("hagrid_dataset_512/" + label)
+        folder = os.listdir("HaGRIDv2_dataset_512/" + label)
 
         # Read all images in the folder for class i
-        for j in tqdm(range(min(len(folder),10000)), desc=label, file=sys.stdout): # progress bar code from: https://www.geeksforgeeks.org/progress-bars-in-python/ with file=sys.stdout suggestion from ChatGPT
+        for j in tqdm(range(5000), desc=label, file=sys.stdout): # progress bar code from: https://www.geeksforgeeks.org/progress-bars-in-python/ with file=sys.stdout suggestion from ChatGPT
             image_name = folder[j]
             
-            image = cv2.imread("hagrid_dataset_512/" + label + "/" + image_name)
+            image = cv2.imread("HaGRIDv2_dataset_512/" + label + "/" + image_name)
 
             # Uncomment this code to display each image, for testing purposes
             # cv2.imshow("Trace Image", image)

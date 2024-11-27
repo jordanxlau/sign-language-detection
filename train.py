@@ -25,7 +25,7 @@ model = keras.Sequential([
   keras.layers.Dropout(0.10),
   keras.layers.Dense(units=128, activation="relu", kernel_initializer="he_normal"),
   keras.layers.Dropout(0.10),
-  keras.layers.Dense(units=18, activation="softmax")
+  keras.layers.Dense(units=33, activation="softmax")
 ])
 
 # Compile the model
@@ -46,4 +46,4 @@ plt.plot(history.history['val_accuracy'], color=(0.9, 0, 0.4))
 plt.show()
 
 # Save
-model.save("hand-gestures.keras", overwrite=True)
+model.save("hand-gestures-33.keras", overwrite=True)

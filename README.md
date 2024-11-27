@@ -1,9 +1,9 @@
 # Sign Language Gesture Detection
-This project was made for CSI 4133 to detect live sign language gestures such as fingerspelled letters. While the original assignment did not require it, I decided to extend the project by training my own neural network.
+This project was originally made for CSI 4133 to detect live sign language gestures such as fingerspelled letters. Although the original assignment did not require it, I decided to extend the project by implementing my own machine learning algorithm. Due to a need for large datasets with high-quality, varied images (and a lack of these for Sign Languages), I opted instead to detect various universal hand gestures.
 
 ![](model_training.png)
 
-Due to lack of high-quality datasets, I opted instead to detect various universal hand gestures. However, the success of this project is promising for the future detection of sign language fingerspelling (which, unlike most signs, are often static gestures), given a sufficently large dataset.
+This project contains a Feedforward Neural Network trained on over 165,000 images of hands from HaGRID (a varied open source dataset) to classify 33 gestures. The success of this project is promising for the future detection of sign language fingerspelling (which, unlike most signs, are often static gestures), given a sufficently large dataset.
 
 ## Architecture
 Essentially: raw hand data -> mediapipe -> my model -> live gesture prediction
@@ -22,7 +22,7 @@ File `train.py` trains a model, `hand-gestures.keras`, on the data and saves it.
 File `predict.py` is where the fun really happens. This opens up your webcam, detects your hand and writes on screen what gesture it thinks you are producing.
 
 ## References
-This project uses the lightweight version 1 HaGRID dataset from: https://github.com/hukenovs/hagrid/tree/Hagrid_v2?tab=readme-ov-file
+This project uses the lightweight version 2 HaGRID dataset from: https://github.com/hukenovs/hagrid/tree/master?tab=readme-ov-file
 
 This project uses example MediaPipe Hand Landmark detection code from: https://github.com/google-ai-edge/mediapipe/blob/master/docs/solutions/hands.md#python-solution-api and https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker/python?_gl=1
 

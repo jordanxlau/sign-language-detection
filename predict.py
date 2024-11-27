@@ -6,21 +6,27 @@ from mediapipe import solutions
 
 # List of labels (different from preprocessing.py)
 labels = {
-    -1: 'no hand',
-    0: 'call', 1: 'thumbs down', 2: 'reset', 3: 'four', 4: 'thumbs up', 5: 'quiet',
-    6: 'ok', 7: 'one', 8: 'palm', 9: 'two', 10: 'two', 11: 'rock',
-    12: 'Bb', 13: 'backhand', 14: 'three', 15: 'three', 16: 'Uu', 17: 'two'
+    -1: '',
+    0: 'call', 1: 'dislike', 2: 'fist', 3: 'four', 4: 'grabbing',
+    5: 'grip', 6: 'hand_heart', 7: 'hand_heart2', 8: 'holy', 9: 'like',
+    10: 'little_finger', 11: 'middle_finger', 12: 'mute', 13: 'ok', 14: 'one',
+    15: 'palm', 16: 'peace', 17: 'peace_inverted', 18: 'point', 19: 'rock',
+    20: 'stop', 21: 'stop_inverted', 22: 'take_picture', 23: 'three', 24: 'three_gun',
+    25: 'three2', 26: 'three3', 27: 'thumb_index', 28: 'thumb_index2', 29: 'timeout',
+    30: 'two_up', 31: 'two_up_inverted', 32: 'xsign'
 }
 
 # Find the best prediction
 def best_prediction(predictions:np.array):
     # Search an np array of normalized predictions for the max value (most likely prediction)
-    for j in range( len(predictions) ):
-        max = 0
-        for i in range( 18 ):
-            max = i if predictions[j,max] < predictions[j,i] else max
-    
-    return max
+    max = 0
+    for i in range( 33 ):
+        max = i if predictions[0,max] < predictions[0,i] else max
+
+    if predictions[0,max]>0.8:
+        return max
+    else:
+        return -1
 
 try:
     # Rename mediapipe
@@ -41,7 +47,7 @@ try:
                      mp_hands.HandLandmark.PINKY_TIP]
 
     # Load the hand classification model
-    model = keras.models.load_model("hand-gestures.keras")
+    model = keras.models.load_model("hand-gestures-33.keras")
 
     # Initialize video capture from webcam
     cap = cv2.VideoCapture(0)
@@ -110,10 +116,11 @@ try:
                 hand = tf.constant([hand])
                 predictions = model.predict(hand)
                 prediction = best_prediction(predictions)
+                print(predictions)
 
                 # Add to the message when the gesture changes
                 if previous_prediction != prediction:
-                    message = message + labels[prediction] + ", " 
+                    message = message + labels[prediction] + " " 
                 if prediction == 2:
                     message = ""
 
