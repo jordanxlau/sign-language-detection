@@ -9,7 +9,7 @@ This project contains a Feedforward Neural Network trained on over 165,000 image
 Essentially: raw hand data -> mediapipe -> my model -> live gesture prediction
 
 ## Running the Code
-You can the pre-trained model out on your own webcam by executing:
+You can try the pre-trained model out on your own webcam by executing:
 `python predict.py`
 
 ![](example.png)
