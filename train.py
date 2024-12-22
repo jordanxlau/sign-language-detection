@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
-dataset_landmarked = pd.read_csv("dataset_landmarked.csv")
+dataset_landmarked = pd.read_csv("dataset_landmarked-29.csv")
 
 X = dataset_landmarked.iloc[:,1:]
 y = dataset_landmarked.iloc[:,0]
@@ -17,7 +17,7 @@ X_train, X_test, y_train, y_test = tf.constant(X_train), tf.constant(X_test), tf
 
 # Create a Neural Network
 model = keras.Sequential([
-  keras.layers.InputLayer(shape=(63,)),
+  keras.layers.InputLayer(shape=(63,)), # 21 landmarks * 3 coordinates
   keras.layers.Flatten(),
   keras.layers.Dense(units=128, activation="relu", kernel_initializer="he_normal"),
   keras.layers.Dropout(0.10),
@@ -25,7 +25,7 @@ model = keras.Sequential([
   keras.layers.Dropout(0.10),
   keras.layers.Dense(units=128, activation="relu", kernel_initializer="he_normal"),
   keras.layers.Dropout(0.10),
-  keras.layers.Dense(units=33, activation="softmax")
+  keras.layers.Dense(units=29, activation="softmax")
 ])
 
 # Compile the model
@@ -46,4 +46,4 @@ plt.plot(history.history['val_accuracy'], color=(0.9, 0, 0.4))
 plt.show()
 
 # Save
-model.save("hand-gestures-33.keras", overwrite=True)
+model.save("hand-gestures-29.keras", overwrite=True)

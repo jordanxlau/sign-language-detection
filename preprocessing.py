@@ -11,9 +11,8 @@ labels = {
     5: 'grip', 6: 'hand_heart', 7: 'hand_heart2', 8: 'holy', 9: 'like',
     10: 'little_finger', 11: 'middle_finger', 12: 'mute', 13: 'ok', 14: 'one',
     15: 'palm', 16: 'peace', 17: 'peace_inverted', 18: 'point', 19: 'rock',
-    20: 'stop', 21: 'stop_inverted', 22: 'take_picture', 23: 'three', 24: 'three_gun',
-    25: 'three2', 26: 'three3', 27: 'thumb_index', 28: 'thumb_index2', 29: 'timeout',
-    30: 'two_up', 31: 'two_up_inverted', 32: 'xsign'
+    20: 'stop', 21: 'stop_inverted', 22: 'three', 23: 'three_gun', 24: 'three2',
+    25: 'three3', 26: 'thumb_index', 27: 'two_up', 28: 'two_up_inverted'
 }
 
 try:
@@ -31,7 +30,7 @@ try:
         min_detection_confidence=0.4)
 
     # Read data for each class
-    for i in range(33):
+    for i in range(29):
         label = labels[i]
         folder = os.listdir("HaGRIDv2_dataset_512/" + label)
 
@@ -88,7 +87,7 @@ try:
     dataset_landmarked = pd.DataFrame(dataset_landmarked)
 
     # Save as .csv files
-    dataset_landmarked.to_csv("dataset_landmarked.csv", index=False)
+    dataset_landmarked.to_csv("dataset_landmarked-29.csv", index=False)
 
 except Exception as e:
     print("Exception:", e)
