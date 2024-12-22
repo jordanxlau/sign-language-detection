@@ -3,7 +3,7 @@ This project was originally made for CSI 4133 to detect live sign language gestu
 
 ![](model_training.png)
 
-This project contains a Feedforward Neural Network trained on over 165,000 images of hands from HaGRID (a varied open source dataset) to classify 33 gestures. The success of this project is promising for the future detection of sign language fingerspelling (which, unlike most signs, are often static gestures), given a sufficently large dataset.
+This project contains a Feedforward Neural Network trained on over 145,000 images of hands from HaGRID (a varied open source dataset) to classify 33 gestures. The success of this project is promising for the future detection of sign language fingerspelling (which, unlike most signs, are often static gestures), given a sufficently large dataset.
 
 ## Architecture
 Essentially: raw hand data -> mediapipe -> my model -> live gesture prediction
