@@ -17,7 +17,7 @@ You can try the pre-trained model out on your own webcam by executing:
 ## Explanation
 File `preprocessing.py` opens the HaGRID dataset (which I have downloaded locally but not upload to this repo) and processes the data with Google MediaPipe Hand Landmark detection. MediaPipe's hand landmark detection can detect 3D points of 21 key landmarks on a hand (eg. Wrist, Index Finger Metacarpals, etc.). So, each hand in each image in HaGRID is stored as sets of points for a total `21*3 = 63` features in X.csv and y.csv. This can easily take over 2 hours for the full dataset.
 
-File `train.py` trains a model, `hand-gestures.keras`, on the data and saves it. The data is shuffled and split into train and test data.
+File `train.py` trains a model, `hand-gestures-29.keras`, on the data and saves it. The data is shuffled and split into train and test data.
 
 File `predict.py` is where the fun really happens. This opens up your webcam, detects your hand and writes on screen what gesture it thinks you are producing.
 
