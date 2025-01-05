@@ -1,9 +1,11 @@
 # Sign Language Gesture Detection
-This project was originally made for CSI 4133 to detect live sign language gestures such as fingerspelled letters. Although the original assignment did not require it, I decided to extend the project by implementing my own machine learning algorithm. Due to a need for large datasets with high-quality, varied images (and a lack of these for Sign Languages), I opted instead to detect various universal hand gestures.
+This project was originally made for CSI 4133 to detect live sign language gestures such as fingerspelled letters. Although the original assignment did not require it, I decided to extend the project by implementing my own supervised learning algorithm with Keras. Due to a need for large datasets with high-quality, varied images (and a lack of these for Sign Languages), I opted instead to detect various universal hand gestures (such as the "okay" gesture), on top of a few ASL fingerspelled letters.
 
 ![](model_training.png)
 
-This project contains a Feedforward Neural Network trained on over 145,000 images of hands from HaGRID (a varied open source dataset) to classify 33 gestures. The success of this project is promising for the future detection of sign language fingerspelling (which, unlike most signs, are often static gestures), given a sufficently large dataset.
+Here, the Dashed line indicates accuracy over the Training set and the Solid line indicates accuracy over the Validation set.
+
+This project contains a Feedforward Neural Network trained on over 145,000 images of hands from HaGRID (a varied open source dataset) to classify 29 gestures. The success of this project is promising for the future detection of sign language fingerspelling (which, unlike most signs, are often static gestures), given a sufficently large dataset.
 
 ## Architecture
 Essentially: raw hand data -> mediapipe -> my model -> live gesture prediction
