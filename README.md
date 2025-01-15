@@ -1,4 +1,4 @@
-# Sign Language Gesture Detection
+# Hand Gesture Detection
 This project was originally made for CSI 4133 to detect live sign language gestures such as fingerspelled letters. Although the original assignment did not require it, I decided to extend the project by implementing my own supervised learning algorithm with Keras. Due to a need for large datasets with high-quality, varied images (and a lack of these for Sign Languages), I opted instead to detect various universal hand gestures (such as the "okay" gesture), on top of a few ASL fingerspelled letters.
 
 ![](model_training.png)
